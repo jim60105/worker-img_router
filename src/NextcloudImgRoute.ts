@@ -1,4 +1,6 @@
-declare const NEXTCLOUDUSERNAME: string, TARGETHOST: string;
+declare const process: any;
+const NEXTCLOUDUSERNAME = process.env.NEXTCLOUDUSERNAME;
+const TARGETHOST = process.env.TARGETHOST;
 
 const picExt = [
   "ico",

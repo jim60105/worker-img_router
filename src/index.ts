@@ -1,10 +1,12 @@
 import { isImgExtension, fetchOriginalPath } from './NextcloudImgRoute';
-declare const SOURCEHOST: string;
+
+declare const process: any;
+const SOURCEHOST = process.env.SOURCEHOST;
 
 // Entrypoint
 addEventListener('fetch', (event) => {
-  event.respondWith(handleRequest(event.request))
-})
+  event.respondWith(handleRequest(event.request));
+});
 
 async function handleRequest(request: Request): Promise<Response> {
   let url = new URL(request.url);
