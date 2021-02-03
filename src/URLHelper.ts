@@ -19,11 +19,11 @@ export function isAllowedExtension(pathname: string) {
 }
 
 export function getUrlFileName(pathname: string) {
-    return pathname.replace(getUrlExtension(`.${pathname}`), "").split("/").pop();
+    return pathname.replace(`.${getUrlExtension(pathname)}`, "").split("/").pop();
 }
 
 export function getUrlExtension(pathname: any): string {
     pathname = pathname.split('?')[0];
     pathname = pathname.split('/').pop();
-    return pathname.includes('.') ? pathname.substring(pathname.lastIndexOf('.')) : "";
+    return pathname.includes('.') ? pathname.substring(pathname.lastIndexOf('.') + 1) : "";
 }
