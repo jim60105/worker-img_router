@@ -1,15 +1,17 @@
 declare const process: any;
-const NEXTCLOUDUSERNAME = process.env.NEXTCLOUDUSERNAME;
-const TARGETHOST = process.env.TARGETHOST;
+const NEXTCLOUDUSERNAME: string = process.env.NEXTCLOUDUSERNAME;
+const TARGETHOST: string = process.env.TARGETHOST;
 
 /**
- * 傳回Nextcloud網址之fetch物件
+ * 傳回Nextcloud網址之Response Promise
+ * @returns Response Promise
  */
 export function fetchOriginalPath(pathname: string, header = {}) {
   let href = new URL(
     `index.php/apps/sharingpath/${NEXTCLOUDUSERNAME}/Public${pathname}`,
     `https://${TARGETHOST}`
   ).toString();
+
   console.log(href);
   return fetch(href, header);
 }

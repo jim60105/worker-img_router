@@ -3,7 +3,7 @@ import { isAllowedExtension, getUrlFileName, getUrlExtension } from './URLHelper
 import { handleRandomPicture } from './RandomPicture';
 
 declare const process: any;
-const SOURCEHOST = process.env.SOURCEHOST;
+const SOURCEHOST: string = process.env.SOURCEHOST;
 
 // Entrypoint
 addEventListener('fetch', (event) => {
@@ -11,33 +11,31 @@ addEventListener('fetch', (event) => {
 });
 
 async function handleRequest(request: Request): Promise<Response> {
-  let url = new URL(request.url);
+  const url = new URL(request.url);
 
   // Bypass SSL Challenge and other .well-known
   if (url.pathname.indexOf("well-known") >= 0) {
     return fetch(request);
   }
 
-  // Remove Facebook fbclid
-  if (null != url.searchParams.get("fbclid")) {
-    url.searchParams.delete("fbclid");
-  }
+  // Debug logging
+  console.log(`Pathname: ${url.pathname}`);
+  console.log(`Filename: ${getUrlFileName(url.pathname)}`);
+  console.log(`Extension: ${getUrlExtension(url.pathname)}`);
+  console.log(`Is allowed extension: ${isAllowedExtension(url.pathname)}`);
 
+  // Bypass if not match SourceHost
+  if (SOURCEHOST != url.hostname)
+    return fetch(request);
 
-  console.log(`pathname: ${url.pathname}`);
-  console.log(`filename: ${getUrlFileName(url.pathname)}`);
-  console.log(`ext: ${getUrlExtension(url.pathname)}`);
-  console.log(`allow ext: ${isAllowedExtension(url.pathname)}`);
+  // Block all except allowed extension
+  if (!isAllowedExtension(url.pathname))
+    return new Response('Forbidden', { status: 403 });
+
+  //Handle on random picture
+  if (getUrlFileName(url.pathname) == 'random')
+    return await handleRandomPicture(url.pathname);
+
   // Route img to nextcloud
-  if (url.hostname == SOURCEHOST && isAllowedExtension(url.pathname)) {
-
-    //Handle on random picture
-    if (getUrlFileName(url.pathname) == 'random') {
-      return await handleRandomPicture(url.pathname);
-    }
-
-    return fetchOriginalPath(url.pathname);
-  }
-
-  return new Response('Not found', { status: 404 });
+  return fetchOriginalPath(url.pathname);
 }

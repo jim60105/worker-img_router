@@ -1,6 +1,6 @@
 {
-  "name": "pname",
-  "version": "1.0.0",
+  "name": "worker-img_route",
+  "version": "2.0.0",
   "description": "Cloudflare worker Img Router",
   "main": "index.js",
   "scripts": {
