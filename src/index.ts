@@ -23,7 +23,7 @@ async function handleRequest(request: Request): Promise<Response> {
 
   // Route img to nextcloud
   if (url.hostname == SOURCEHOST && isImgExtension(url.pathname)) {
-    return fetchOriginalPath();
+    return fetchOriginalPath(url.pathname);
   }
 
   return new Response('Not found', { status: 404 });

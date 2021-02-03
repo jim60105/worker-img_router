@@ -27,9 +27,9 @@ export function isImgExtension(pathname: string) {
 /**
  * 產生Nextcloud網址，並fetch
  */
-export function fetchOriginalPath() {
+export function fetchOriginalPath(pathname: string) {
   return fetch(new URL(
-    `index.php/apps/sharingpath/${NEXTCLOUDUSERNAME}/Public/{url.pathname}`,
+    `index.php/apps/sharingpath/${NEXTCLOUDUSERNAME}/Public/${pathname}`,
     `https://${TARGETHOST}`
   ).toString(), {
     headers: {
