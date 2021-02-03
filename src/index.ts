@@ -1,4 +1,5 @@
-import { isAllowedExtension, fetchOriginalPath } from './NextcloudImgRoute';
+import { fetchOriginalPath } from './NextcloudImgRoute';
+import { isAllowedExtension, getUrlExtension } from './URLHelper';
 import { handleRandomPicture } from './RandomPicture';
 
 declare const process: any;
@@ -22,13 +23,14 @@ async function handleRequest(request: Request): Promise<Response> {
     url.searchParams.delete("fbclid");
   }
 
-  //Handle on random.png picture
-  if (url.pathname.endsWith('random.png')) {
-    return await handleRandomPicture(url);
-  }
-
   // Route img to nextcloud
   if (url.hostname == SOURCEHOST && isAllowedExtension(url.pathname)) {
+    //Handle on random picture
+    let filename = url.pathname.replace(getUrlExtension(url.pathname), "").split("/").pop();
+    if (filename == 'random') {
+      return await handleRandomPicture(url.pathname);
+    }
+
     return fetchOriginalPath(url.pathname);
   }
 
