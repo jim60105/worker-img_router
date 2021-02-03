@@ -1,5 +1,5 @@
 import { fetchOriginalPath } from './NextcloudImgRoute';
-import { isAllowedExtension, getUrlExtension } from './URLHelper';
+import { isAllowedExtension, getUrlFileName } from './URLHelper';
 import { handleRandomPicture } from './RandomPicture';
 
 declare const process: any;
@@ -26,8 +26,7 @@ async function handleRequest(request: Request): Promise<Response> {
   // Route img to nextcloud
   if (url.hostname == SOURCEHOST && isAllowedExtension(url.pathname)) {
     //Handle on random picture
-    let filename = url.pathname.replace(getUrlExtension(url.pathname), "").split("/").pop();
-    if (filename == 'random') {
+    if (getUrlFileName(url.pathname) == 'random') {
       return await handleRandomPicture(url.pathname);
     }
 
