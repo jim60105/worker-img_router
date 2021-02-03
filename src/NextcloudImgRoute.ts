@@ -18,7 +18,7 @@ const picExt = [
  * 檢查是否是對應的副檔名
  * @param pathname 路徑名稱
  */
-export function isImgExtension(pathname: string) {
+export function isAllowedExtension(pathname: string) {
   let p = pathname.split(".");
   let ext = p[p.length - 1];
   return (picExt.indexOf(ext.toLowerCase()) >= 0);
@@ -27,13 +27,9 @@ export function isImgExtension(pathname: string) {
 /**
  * 產生Nextcloud網址，並fetch
  */
-export function fetchOriginalPath(pathname: string) {
+export function fetchOriginalPath(pathname: string, header?: object) {
   return fetch(new URL(
     `index.php/apps/sharingpath/${NEXTCLOUDUSERNAME}/Public/${pathname}`,
     `https://${TARGETHOST}`
-  ).toString(), {
-    headers: {
-      'Cache-Control': 'public, max-age=31536000'
-    }
-  });
+  ).toString(), header);
 }
