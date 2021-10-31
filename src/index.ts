@@ -38,7 +38,8 @@ async function handleRequest(request: Request): Promise<Response> {
     return new Response('Forbidden', { status: 403 });
 
   // Redirect hot-link access to specified image
-  if (!isHotLinkAllowedHost(refererHost, HOTLINK_ALLOWEDHOST))
+  if (!isHotLinkAllowedHost(refererHost, HOTLINK_ALLOWEDHOST)
+    && !url.pathname.toLowerCase().includes("preview"))
     return Response.redirect(HOTLINK_IMG, 302);
 
   // Handle on random picture

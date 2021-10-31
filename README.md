@@ -24,9 +24,9 @@ route至\
    5. SOURCEHOST: 短網域，例如 `img.domain.com`
    6. TARGETHOST: Nextcloud網域，例如 `nextcloud.domain.com`
    7. HOTLINK_IMG: Hot-link Protection將會重導向至此圖片網址，從盜鏈瀏覧時會看到這張圖片。預設值是[這一張圖](https://ipfs.io/ipfs/QmVWLdNmY2UzDgoKXjmVeyYxyFUHNdDFbC3eDkfLCXEdFu?filename=hotlink-protection_default.jpg)
-   8. HOTLINK_ALLOWEDHOST: 允許圖片顯示的流量來源hostname，可填入多個RegExp，以;分隔。例如`.*\.allowdomain\.com;.*\.secdomain.com`。預設為不啟動Hot-link Protection(填空值)
+   8. HOTLINK_ALLOWEDHOST: 允許圖片顯示的流量來源hostname，可填入多個RegExp，以;分隔。例如`.*\.domain\.com;.*\.secdomain.com`。預設為不啟動Hot-link Protection(填空值)
 3. git push to master branch使Action啟動，建立worker
-4. 至Cloudflare Worker設定route，將 `img.maki0419.com/*` 對應至此`img_route` worker
+4. 至Cloudflare Worker設定route，將 `img.domain.com/*` 對應至此`img_route` worker
 
 ## 防盜鏈功能
 
@@ -34,6 +34,14 @@ route至\
 其主要目的是保護圖片站台流量，降低盜鏈。\
 請設定上述的`HOTLINK_IMG`、`HOTLINK_ALLOWEDHOST`兩個環境變數。\
 將`HOTLINK_ALLOWEDHOST`留空值則不做任何阻擋。
+
+對於不阻擋的圖片，請在路徑(pathname)中加入`preview`關鍵字。\
+請用在og:image，使預覧圖片能正常被外站抓取，例:
+
+```text
+https://img.domain.com/blog/preview.png
+https://img.domain.com/blog/preview/myimage.png
+```
 
 ## 隨機圖片功能
 
@@ -43,8 +51,8 @@ route至\
 例: 訪問 `img.domain.com/random.png`，則會查詢 `img.domain.com/random.json`，從其中的png之下隨機選一張圖片返回\
 json檔格式範例[在此](template/random.json)，請使用相對路徑
 
-> `img.domain.com/random.json` img網域只開放了圖片相關的附檔名，json檔並不能被直接訪問\
-> worker實際上是查詢了對應在TARGETHOST的該檔案
+> random.json的安全性:\
+> img網域只開放了圖片相關的附檔名，json檔並不能被直接訪問
 
 ## 參考資料
 
