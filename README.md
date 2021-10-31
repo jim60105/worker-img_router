@@ -3,6 +3,7 @@
 > 這是從屬於 [jim60105/docker-Nextcloud](https://github.com/jim60105/docker-Nextcloud) 的Cloudflare Worker CD方案
 
 ## 說明
+
 此Worker目的是縮短網址，將\
 `img.domain.com/${pathname}` \
 route至\
@@ -12,6 +13,7 @@ route至\
 在push至repo後，使用Github Action部屬至Cloudflare，並將所有參數以Github Secrets管理
 
 ## 設定
+
 1. 參閱[Worker手冊](https://developers.cloudflare.com/workers/learning/getting-started)，直至可以建立一般的線上worker\
 (Wrangler cli為非必要，但這可以讓你先在本機build過，且tail指令可以接上deployed worker收log)
 2. 在github repo中設定以下secrets
@@ -25,6 +27,7 @@ route至\
 4. 至Cloudflare Worker設定route，將 `img.maki0419.com/*` 對應至此`img_route` worker
 
 ## 隨機圖片功能
+
 如果收到任何檔名為random、附檔名為圖片的request，worker會取得同目錄下的random.json，並從中隨機選擇一張相同格式的圖片返回\
 這功能設計來使用在論壇簽名檔圖片，每次重整就會不同
 
@@ -35,5 +38,7 @@ json檔格式範例[在此](template/random.json)，請使用相對路徑
 > worker實際上是查詢了對應在TARGETHOST的該檔案
 
 ## 參考資料
+
 ### Set Up Github Actions: Deploy to Cloudflare Worker
-https://www.serviops.ca/a-full-ci-cd-pipeline-for-cloudflare-workers-with-github-actions/
+
+<https://www.serviops.ca/a-full-ci-cd-pipeline-for-cloudflare-workers-with-github-actions/>
