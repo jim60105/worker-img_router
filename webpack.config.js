@@ -17,7 +17,9 @@ module.exports = {
         new webpack.EnvironmentPlugin({
             SOURCEHOST: 'img.domain.com',
             TARGETHOST: 'nextcloud.domain.com',
-            NEXTCLOUDUSERNAME: 'username'
+            NEXTCLOUDUSERNAME: 'username',
+            HOTLINK_IMG: 'https://ipfs.io/ipfs/QmVWLdNmY2UzDgoKXjmVeyYxyFUHNdDFbC3eDkfLCXEdFu?filename=hotlink-protection_default.jpg',
+            HOTLINK_ALLOWEDHOST: ''
         })
     ],
     module: {

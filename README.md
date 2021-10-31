@@ -23,8 +23,17 @@ route至\
    4. NEXTCLOUDUSERNAME: Nextcloud的用戶名稱
    5. SOURCEHOST: 短網域，例如 `img.domain.com`
    6. TARGETHOST: Nextcloud網域，例如 `nextcloud.domain.com`
+   7. HOTLINK_IMG: Hot-link Protection將會重導向至此圖片網址，從盜鏈瀏覧時會看到這張圖片。預設值是[這一張圖](https://ipfs.io/ipfs/QmVWLdNmY2UzDgoKXjmVeyYxyFUHNdDFbC3eDkfLCXEdFu?filename=hotlink-protection_default.jpg)
+   8. HOTLINK_ALLOWEDHOST: 允許圖片顯示的流量來源hostname，可填入多個RegExp，以;分隔。例如`.*\.allowdomain\.com;.*\.secdomain.com`。預設為不啟動Hot-link Protection(填空值)
 3. git push to master branch使Action啟動，建立worker
 4. 至Cloudflare Worker設定route，將 `img.maki0419.com/*` 對應至此`img_route` worker
+
+## 防盜鏈功能
+
+可以設定重導向由外站來的圖片查詢，意即別人將你的圖片直接嵌入其它網站使用時，都會連到同一張警示圖片。\
+其主要目的是保護圖片站台流量，降低盜鏈。\
+請設定上述的`HOTLINK_IMG`、`HOTLINK_ALLOWEDHOST`兩個環境變數。\
+將`HOTLINK_ALLOWEDHOST`留空值則不做任何阻擋。
 
 ## 隨機圖片功能
 

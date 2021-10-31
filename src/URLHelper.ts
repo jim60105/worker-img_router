@@ -23,6 +23,32 @@ export function isAllowedExtension(pathname: string) {
 }
 
 /**
+ * 檢查是否是在熱鏈白名單內
+ * @param host 來源站台名稱
+ * @param host 來源站台名稱
+ * @returns boolean
+ */
+export function isHotLinkAllowedHost(host: string, hotlinkAllowedHost: string) {
+    let flag: boolean = false;
+
+    console.log('Referer:', host);
+    console.log('Hot-link Allowed Host:', hotlinkAllowedHost);
+    if (!hotlinkAllowedHost
+        || hotlinkAllowedHost.length == 0) {
+        flag = true;
+    } else {
+        hotlinkAllowedHost.split(';').forEach(element => {
+            if (new RegExp(element).test(host)) {
+                console.log('Hot-link passed:', element);
+                flag = true;
+            }
+        });
+    }
+
+    return flag;
+}
+
+/**
  * 取得路徑的檔案名稱(不含附檔名)
  * @param pathname 路徑
  * @returns 不含附檔名的檔案名稱

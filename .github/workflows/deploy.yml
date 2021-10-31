@@ -23,3 +23,5 @@ jobs:
           SOURCEHOST: ${{secrets.SOURCEHOST}}
           TARGETHOST: ${{secrets.TARGETHOST}}
           NEXTCLOUDUSERNAME: ${{secrets.NEXTCLOUDUSERNAME}}
+          HOTLINK_IMG: ${{secrets.HOTLINK_IMG}}
+          HOTLINK_ALLOWEDHOST: ${{secrets.HOTLINK_ALLOWEDHOST}}
