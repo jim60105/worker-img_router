@@ -37,14 +37,14 @@ async function handleRequest(request: Request): Promise<Response> {
   if (!isAllowedExtension(url.pathname))
     return new Response('Forbidden', { status: 403 });
 
+  // Redirect hot-link access to specified image
+  if (!isHotLinkAllowedHost(refererHost, HOTLINK_ALLOWEDHOST))
+    return Response.redirect(HOTLINK_IMG, 302);
+
   // Handle on random picture
   if (getUrlFileName(url.pathname) == 'random')
     return await handleRandomPicture(url.pathname);
 
-  // Redirect hot-link access to specified image
-  if (!isHotLinkAllowedHost(refererHost, HOTLINK_ALLOWEDHOST))
-    return Response.redirect(HOTLINK_IMG, 302);
-  
   // Route img to nextcloud
   return fetchOriginalPath(url.pathname);
 }
