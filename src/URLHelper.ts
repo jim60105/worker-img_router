@@ -4,13 +4,16 @@
 const allowedExtension = [
     "ico",
     "jpg",
-    "png",
-    "gif",
     "jpeg",
+    "jfif",
+    "png",
+    "apng",
+    "gif",
     "bmp",
     "tiff",
     "svg",
-    "mp4"
+    "mp4",
+    "mkv"
 ];
 
 /**
