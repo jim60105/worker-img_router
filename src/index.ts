@@ -47,5 +47,12 @@ async function handleRequest(request: Request): Promise<Response> {
     return await handleRandomPicture(url.pathname);
 
   // Route img to nextcloud
-  return fetchOriginalPath(url.pathname);
+  return fetchOriginalPath(url.pathname).then((response: Response) => {
+    if (getUrlExtension(url.pathname) == 'svg') {
+      let header = new Headers(response.headers);
+      header.set('Content-Type', 'image/svg+xml');
+      return new Response(response.body, header);
+    }
+    return response;
+  });
 }
