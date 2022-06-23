@@ -30,8 +30,7 @@ async function handleRequest(request: Request): Promise<Response> {
   console.log(`Is hot-link allowed host: ${isHotLinkAllowedHost(refererHost, HOTLINK_ALLOWEDHOST)}`);
 
   // Bypass if not match SourceHost
-  if (SOURCEHOST != url.hostname)
-    return fetch(request);
+  if (SOURCEHOST != url.hostname) return fetch(request)
 
   // Block all except allowed extension
   if (!isAllowedExtension(url.pathname))
