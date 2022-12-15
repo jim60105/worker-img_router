@@ -59,11 +59,17 @@ async function handleRequest(request: Request): Promise<Response> {
 
   // Route img to nextcloud
   return fetchOriginalPath(url.pathname).then((response: Response) => {
+    let header = new Headers(response.headers);
+    header.set(
+      'Access-Control-Allow-Origin',
+      request.headers.get('Origin') || referer,
+    );
+    header.set('Vary', 'Origin');
+
     if (getUrlExtension(url.pathname) == 'svg') {
-      let header = new Headers(response.headers);
       header.set('Content-Type', 'image/svg+xml');
-      return new Response(response.body, { headers: header });
     }
-    return response;
+
+    return new Response(response.body, { headers: header });
   });
 }
