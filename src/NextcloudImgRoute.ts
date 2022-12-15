@@ -9,7 +9,7 @@ const TARGETHOST: string = process.env.TARGETHOST;
 export function fetchOriginalPath(pathname: string, header = {}) {
   let href = new URL(
     `index.php/apps/sharingpath/${NEXTCLOUDUSERNAME}/Public${pathname}`,
-    `https://${TARGETHOST}`
+    `https://${TARGETHOST}`,
   ).toString();
 
   console.log(href);

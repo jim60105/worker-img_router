@@ -2,18 +2,18 @@
  * 附檔名白名單
  */
 const allowedExtension = [
-    "ico",
-    "jpg",
-    "jpeg",
-    "jfif",
-    "png",
-    "apng",
-    "gif",
-    "bmp",
-    "tiff",
-    "svg",
-    "mp4",
-    "mkv"
+  'ico',
+  'jpg',
+  'jpeg',
+  'jfif',
+  'png',
+  'apng',
+  'gif',
+  'bmp',
+  'tiff',
+  'svg',
+  'mp4',
+  'mkv',
 ];
 
 /**
@@ -22,7 +22,7 @@ const allowedExtension = [
  * @returns boolean
  */
 export function isAllowedExtension(pathname: string) {
-    return (allowedExtension.indexOf(getUrlExtension(pathname).toLowerCase()) >= 0);
+  return allowedExtension.indexOf(getUrlExtension(pathname).toLowerCase()) >= 0;
 }
 
 /**
@@ -32,23 +32,22 @@ export function isAllowedExtension(pathname: string) {
  * @returns boolean
  */
 export function isHotLinkAllowedHost(host: string, hotlinkAllowedHost: string) {
-    let flag: boolean = false;
+  let flag: boolean = false;
 
-    console.log('Referer:', host);
-    console.log('Hot-link Allowed Host:', hotlinkAllowedHost);
-    if (!hotlinkAllowedHost
-        || hotlinkAllowedHost.length == 0) {
+  console.log('Referer:', host);
+  console.log('Hot-link Allowed Host:', hotlinkAllowedHost);
+  if (!hotlinkAllowedHost || hotlinkAllowedHost.length == 0) {
+    flag = true;
+  } else {
+    hotlinkAllowedHost.split(';').forEach((element) => {
+      if (new RegExp(element).test(host)) {
+        console.log('Hot-link passed:', element);
         flag = true;
-    } else {
-        hotlinkAllowedHost.split(';').forEach(element => {
-            if (new RegExp(element).test(host)) {
-                console.log('Hot-link passed:', element);
-                flag = true;
-            }
-        });
-    }
+      }
+    });
+  }
 
-    return flag;
+  return flag;
 }
 
 /**
@@ -57,7 +56,10 @@ export function isHotLinkAllowedHost(host: string, hotlinkAllowedHost: string) {
  * @returns 不含附檔名的檔案名稱
  */
 export function getUrlFileName(pathname: string) {
-    return pathname.replace(`.${getUrlExtension(pathname)}`, "").split("/").pop();
+  return pathname
+    .replace(`.${getUrlExtension(pathname)}`, '')
+    .split('/')
+    .pop();
 }
 
 /**
@@ -66,7 +68,9 @@ export function getUrlFileName(pathname: string) {
  * @returns 附檔名
  */
 export function getUrlExtension(pathname: any): string {
-    pathname = pathname.split('?')[0];
-    pathname = pathname.split('/').pop();
-    return pathname.includes('.') ? pathname.substring(pathname.lastIndexOf('.') + 1) : "";
+  pathname = pathname.split('?')[0];
+  pathname = pathname.split('/').pop();
+  return pathname.includes('.')
+    ? pathname.substring(pathname.lastIndexOf('.') + 1)
+    : '';
 }

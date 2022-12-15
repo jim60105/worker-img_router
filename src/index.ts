@@ -1,5 +1,10 @@
 import { fetchOriginalPath } from './NextcloudImgRoute';
-import { isAllowedExtension, getUrlFileName, getUrlExtension, isHotLinkAllowedHost as isHotLinkAllowedHost } from './URLHelper';
+import {
+  isAllowedExtension,
+  getUrlFileName,
+  getUrlExtension,
+  isHotLinkAllowedHost as isHotLinkAllowedHost,
+} from './URLHelper';
 import { handleRandomPicture } from './RandomPicture';
 
 declare const process: any;
@@ -14,11 +19,11 @@ addEventListener('fetch', (event) => {
 
 async function handleRequest(request: Request): Promise<Response> {
   const url = new URL(request.url);
-  let referer = request.headers.get("Referer") || 'https://somewhere.else/';
+  let referer = request.headers.get('Referer') || 'https://somewhere.else/';
   let refererHost = new URL(referer).hostname;
 
   // Bypass SSL Challenge and other .well-known
-  if (url.pathname.indexOf("well-known") >= 0) {
+  if (url.pathname.indexOf('well-known') >= 0) {
     return fetch(request);
   }
 
@@ -27,18 +32,25 @@ async function handleRequest(request: Request): Promise<Response> {
   console.log(`Filename: ${getUrlFileName(url.pathname)}`);
   console.log(`Extension: ${getUrlExtension(url.pathname)}`);
   console.log(`Is allowed extension: ${isAllowedExtension(url.pathname)}`);
-  console.log(`Is hot-link allowed host: ${isHotLinkAllowedHost(refererHost, HOTLINK_ALLOWEDHOST)}`);
+  console.log(
+    `Is hot-link allowed host: ${isHotLinkAllowedHost(
+      refererHost,
+      HOTLINK_ALLOWEDHOST,
+    )}`,
+  );
 
   // Bypass if not match SourceHost
-  if (SOURCEHOST != url.hostname) return fetch(request)
+  if (SOURCEHOST != url.hostname) return fetch(request);
 
   // Block all except allowed extension
   if (!isAllowedExtension(url.pathname))
     return new Response('Forbidden', { status: 403 });
 
   // Redirect hot-link access to specified image
-  if (!isHotLinkAllowedHost(refererHost, HOTLINK_ALLOWEDHOST)
-    && !url.pathname.toLowerCase().includes("preview"))
+  if (
+    !isHotLinkAllowedHost(refererHost, HOTLINK_ALLOWEDHOST) &&
+    !url.pathname.toLowerCase().includes('preview')
+  )
     return Response.redirect(HOTLINK_IMG, 302);
 
   // Handle on random picture
@@ -50,7 +62,7 @@ async function handleRequest(request: Request): Promise<Response> {
     if (getUrlExtension(url.pathname) == 'svg') {
       let header = new Headers(response.headers);
       header.set('Content-Type', 'image/svg+xml');
-      return new Response(response.body, { headers: header })
+      return new Response(response.body, { headers: header });
     }
     return response;
   });
