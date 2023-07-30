@@ -2,11 +2,13 @@
  * 附檔名白名單
  */
 const allowedExtension = [
-  'ico',
+  'webp',
+  'avif',
   'jpg',
+  'png',
+  'ico',
   'jpeg',
   'jfif',
-  'png',
   'apng',
   'gif',
   'bmp',
