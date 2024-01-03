@@ -13,5 +13,9 @@ workers_dev = true
 # which version of the Workers runtime is used.
 compatibility_date = "2022-06-22"
 
+[placement]
+# https://developers.cloudflare.com/workers/configuration/smart-placement/#enable-smart-placement-via-wrangler
+mode = "smart"
+
 [build]
 command = "npm run-script build" 
