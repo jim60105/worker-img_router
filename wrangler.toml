@@ -11,11 +11,11 @@ workers_dev = true
 
 # A date in the form yyyy-mm-dd, which will be used to determine
 # which version of the Workers runtime is used.
-compatibility_date = "2022-06-22"
+compatibility_date = "2023-07-24"
 
 [placement]
 # https://developers.cloudflare.com/workers/configuration/smart-placement/#enable-smart-placement-via-wrangler
 mode = "smart"
 
 [build]
-command = "npm run-script build" 
+command = "npm run-script build"

@@ -1,0 +1,24 @@
+name: Deploy
+
+on:
+  pull_request:
+  push:
+  repository_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+        env:
+          SOURCEHOST: ${{secrets.SOURCEHOST}}
+          TARGETHOST: ${{secrets.TARGETHOST}}
+          NEXTCLOUDUSERNAME: ${{secrets.NEXTCLOUDUSERNAME}}
+          HOTLINK_IMG: ${{secrets.HOTLINK_IMG}}
+          HOTLINK_ALLOWEDHOST: ${{secrets.HOTLINK_ALLOWEDHOST}}
